@@ -1,9 +1,8 @@
-import React from "react";
-import { getPokemonById } from "./models/pokemon";
-
+import React from 'react';
+import { useGetPokemonById } from './models/pokemon';
 
 const App = () => {
-  const { data: pokemon } = getPokemonById({ id: 1 });
+  const { data: pokemon } = useGetPokemonById({ id: 1 });
 
   return (
     <div>
