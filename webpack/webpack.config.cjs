@@ -1,8 +1,29 @@
+const { ModuleFederationPlugin } = require("webpack").container;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-const { ModuleFederationPlugin } = require("webpack").container;
 const dependencies = require('../package.json').dependencies;
+
+const moduleFederationConfig = {
+  name: "models",
+  filename: "remoteEntry.js",
+  exposes: {
+    "./QueryClientProvider": "./src/providers/QueryClientProvider.tsx",
+    "./PokemonModel": "./src/models/pokemon.ts"
+  },
+  shared: {
+    "react": {
+      singleton: true,
+      strictVersion: true,
+      requiredVersion: dependencies['react'],
+    },
+    "react-dom/client": {
+      singleton: true,
+      strictVersion: true,
+      requiredVersion: dependencies['react-dom'],
+    },
+  }
+};
 
 module.exports = {
   mode: "development",
@@ -61,26 +82,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new ModuleFederationPlugin({
-      name: "models",
-      filename: "remoteEntry.js",
-      exposes: {
-        "./QueryClientProvider": "./src/providers/QueryClientProvider.tsx",
-        "./PokemonModel": "./src/models/pokemon.ts"
-      },
-      shared: {
-        "react": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: dependencies['react'],
-        },
-        "react-dom/client": {
-          singleton: true,
-          strictVersion: true,
-          requiredVersion: dependencies['react-dom'],
-        },
-      }
-    }),
+    new ModuleFederationPlugin(moduleFederationConfig),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
