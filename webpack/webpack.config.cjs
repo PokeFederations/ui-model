@@ -1,6 +1,8 @@
 const { ModuleFederationPlugin } = require("webpack").container;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const FederatedTypesPlugin = require('@module-federation/typescript');
+
 const path = require("path");
 const dependencies = require('../package.json').dependencies;
 
@@ -9,7 +11,8 @@ const moduleFederationConfig = {
   filename: "remoteEntry.js",
   exposes: {
     "./QueryClientProvider": "./src/providers/QueryClientProvider.tsx",
-    "./PokemonModel": "./src/models/pokemon.ts"
+    "./useGetPokemonById": "./src/models/pokemon/useGetPokemonById.ts",
+    "./useGetPokemonMany": "./src/models/pokemon/useGetPokemonMany.ts",
   },
   shared: {
     "react": {
@@ -83,6 +86,7 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin(moduleFederationConfig),
+    new FederatedTypesPlugin(moduleFederationConfig),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
