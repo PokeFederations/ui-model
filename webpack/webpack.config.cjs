@@ -11,7 +11,8 @@ const moduleFederationConfig = {
   filename: "remoteEntry.js",
   exposes: {
     "./QueryClientProvider": "./src/providers/QueryClientProvider.tsx",
-    "./PokemonModel": "./src/models/pokemon.ts"
+    "./useGetPokemonById": "./src/models/pokemon/useGetPokemonById.ts",
+    "./useGetPokemonMany": "./src/models/pokemon/useGetPokemonMany.ts",
   },
   shared: {
     "react": {
