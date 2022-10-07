@@ -2,7 +2,7 @@ import React from 'react';
 import { useGetPokemonById } from './models/pokemon';
 
 const App = () => {
-  const { data: pokemons } = useGetPokemonById({ id: 1 });
+  const { data: pokemons } = useGetPokemonById({ params: { id: 1 } });
 
   return (
     <div>
